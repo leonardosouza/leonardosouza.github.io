@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Bye bye Grunt.js, hello Gulp.js! | less is more</title>
+  <meta name="author" content="Leonardo Souza">
+  
+  <meta name="description" content="js, html, css e outras bobeiras">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Bye bye Grunt.js, hello Gulp.js!"/>
+  <meta property="og:site_name" content="less is more"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="less is more" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">less is more</a></h1>
+  <h2><a href="/">javascript, vatapá e jerimun</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="http://about.me/leonardo.souza">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Bye bye Grunt.js, hello Gulp.js!</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2014-01-14T11:26:27.000Z">Jan 14 2014</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>No ano passado, um enxurrada de projetos baseados em JavaScript apareceu no mercado. Grande parte disto deve-se ao fato da linguagem não estar restritamente ligada apenas ao ambiente dos navegadores, e sem dúvidas a plataforma do <strong>Node.js</strong> contribuiu demais para a expansão de todo esse ecossistema.</p>
+<p>No balanço da onda, surgiram alternativas para ferramentas tradicionais de build (Maven, Ant e afins) e entre estas a que mais se destacou foi sem dúvidas o <strong>Grunt.js</strong> - e você pode acompanhar o beabá desse cara num <a href="http://blog.caelum.com.br/automacao-de-build-de-front-end-com-grunt-js/" target="_blank">excelente post publicado pelo Sérgio Lopes  no blog da Caelum</a>.</p>
+<p>O <strong>Grunt.js</strong> é uma ferramenta fantástica, mais requer do desenvolvedor alguns conhecimentos que nem todo mundo está verdadeiramente por dentro, como por exemplo o perfeito entendimento da sintaxe literal para construção de objetos que é a base da organização do <strong>Grunt</strong>.</p>
+<p><img src="http://blog.caelum.com.br/wp-content/uploads/2014/01/Screen-Shot-2014-01-11-at-12.33.56-AM-300x170.png" alt="" style="display:block;margin:auto;" /></p>
+<p>A idéia do <strong>Gulp.js</strong> é abstrair esse conhecimento e trabalhar de uma forma muito mais digamos &quot;jQuery like&quot;, onde você vai precisar conhecer meia dúzia de métodos e ele por trás faz a abstração dos detalhes necessários para a geração do build.</p>
+<h2 id="come-ando-com-o-gulp-js">Começando com o Gulp.js</h2>
+<p>Assim como o <strong>Grunt</strong>, o <strong>Gulp</strong> é uma ferramenta de automação de tarefas feita em JavaScript e rodando em cima do <strong>Node.js</strong>. Como o core da execução é o Node, precisamos começar nossos trabalhos definindo o arquivo de vai gerenciar os módulos <strong>Gulp</strong> que você utilizará no seu projeto. Para isto, você deve criar na raiz do mesmo o arquivo <strong>package.json</strong>.</p>
+<p>A forma mais fácil de fazer isso, é utilizando a seguinte instrução no terminal:</p>
+<figure class="highlight terminal"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>npm init
+</pre></td></tr></table></figure>
+
+<p>Esse comando questionará o desenvolvedor sobre uma série de detalhes do projeto (nome, versão, descrição, repositório no git, palavras chaves, autor, licença, etc). Você pode fornecer os detalhes ou ir pressionando Enter e deixar que gerenciador faça as definições baseado em algumas sugestões para as chaves indicadas. No final, o gerenciador exibirá uma amostra do JSON que foi definido e solicitará a sua confirmação para gravação do <strong>package.json</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>{
+  <span class="string">"name"</span>: <span class="string">"gulpteste"</span>,
+  <span class="string">"version"</span>: <span class="string">"0.0.0"</span>,
+  <span class="string">"description"</span>: <span class="string">""</span>,
+  <span class="string">"main"</span>: <span class="string">"index.js"</span>,
+  <span class="string">"scripts"</span>: {
+    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" && exit 1"</span>
+  },
+  <span class="string">"author"</span>: <span class="string">""</span>,
+  <span class="string">"license"</span>: <span class="string">"ISC"</span>
+}
+</pre></td></tr></table></figure>
+
+<p>Ai basta digitar um &quot;yes&quot; e ser feliz!</p>
+<h2 id="instalando-os-m-dulos">Instalando os módulos</h2>
+<p>Essa parte é a mais fácil. Baseada nas tarefas que você gostaria de automatizar, será necessário instalar os módulos do <strong>Gulp</strong>. No nosso exemplo, faremos um procedimento simples, de minificação de arquivos em JavaScript utilizando o <strong>Uglify</strong>. Então além dos módulos que farão o gulp funcionar (<strong>gulp e gulp-util</strong>), você precisará instalar o módulo da minificação (<strong>gulp-uglify</strong>) e de quebra instalaremos também um módulo para monitorar alterações nos arquivos .js e rodará a tarefa da minificação (<strong>gulp-watch</strong>)</p>
+<figure class="highlight terminal"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>$ npm install gulp <span class="subst">--</span>save<span class="attribute">-dev</span>
+$ npm install gulp<span class="attribute">-util</span> <span class="subst">--</span>save<span class="attribute">-dev</span>
+$ npm install gulp<span class="attribute">-uglify</span> <span class="subst">--</span>save<span class="attribute">-dev</span>
+$ npm install gulp<span class="attribute">-watch</span> <span class="subst">--</span>save<span class="attribute">-dev</span>
+</pre></td></tr></table></figure>
+
+<p>Note que para cada módulo instalado, utilizamos o parâmetro <strong>--save-dev</strong>. Isto modificará nosso arquivo package.json adicionando ao mesmo os módulos que a partir de agora são dependências para rodarmos as tarefas do <strong>Gulp</strong>. Se você for curioso, pode expiar o conteúdo do <strong>package.json</strong>, ele deve estar assim:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre>{
+  <span class="string">"name"</span>: <span class="string">"gulpteste"</span>,
+  <span class="string">"version"</span>: <span class="string">"0.0.0"</span>,
+  <span class="string">"description"</span>: <span class="string">""</span>,
+  <span class="string">"main"</span>: <span class="string">"index.js"</span>,
+  <span class="string">"scripts"</span>: {
+    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" && exit 1"</span>
+  },
+  <span class="string">"author"</span>: <span class="string">""</span>,
+  <span class="string">"license"</span>: <span class="string">"ISC"</span>,
+  <span class="string">"devDependencies"</span>: {
+    <span class="string">"gulp"</span>: <span class="string">"~3.3.0"</span>,
+    <span class="string">"gulp-util"</span>: <span class="string">"~2.2.9"</span>,
+    <span class="string">"gulp-uglify"</span>: <span class="string">"~0.1.0"</span>,
+    <span class="string">"gulp-watch"</span>: <span class="string">"~0.3.3"</span>
+  }
+}
+</pre></td></tr></table></figure>
+
+<p>A grande vantagem de instalar os módulos desta maneira, é a fácil reinstalação de todas as dependências. Imagine que inadvertidamente alguém apagou a pasta <strong>node_modules</strong> do seu projeto. Ou mesmo, imagine que você gostaria de compartilhar este projeto com outro desenvolvedor. Não há a mínima necessidade de versionar a pasta <strong>node_modules</strong>. Basta ter o <strong>package.json</strong> atualizado e uma única instrução fará que com que tudo volte ao normal. A título de teste, exclua agora sua pasta <strong>node_modules</strong>... da até uma tristeza né, afinal você terá que reinstalar tudo novamente. A boa notícia é que agora tudo será bem mais facil, bastando rodar um:</p>
+<figure class="highlight terminal"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>npm install
+</pre></td></tr></table></figure>
+
+<p>Pronto! Tudo voltou a ordem que estava anteriormente.</p>
+<h2 id="configurando-suas-tarefas">Configurando suas tarefas</h2>
+<p>Para rodar o Gulp.js, você vai precisar configurar as tarefas que serão executadas. A título de exemplo, vamos criar 2 pastas, uma chamada <strong>src</strong> e outra chamada <strong>build</strong>, na raiz do projeto.</p>
+<p>Dentro da pasta <strong>src</strong>, vamos criar uma pasta <strong>js</strong> onde ficarão todos os arquivos originais de desenvolvimento.</p>
+<p>Com a automatização, será criada automaticamente uma pasta <strong>js</strong> dentro de <strong>build</strong>, com os arquivos js que estão na pasta <strong>src</strong>, porém estes últimos estarão minificados pelo <strong>Uglify</strong>. Para essa mágica toda acontecer, vamos criar na raiz o arquivo de configuração das tarefas, o <strong>gulpfile.js</strong>.</p>
+<p>Abra o arquivo e mãos a obra. O primeiro passo é instanciar os módulos que vamos utilizar:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="comment">// instanciando módulos</span>
+<span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);
+<span class="keyword">var</span> gutil = <span class="built_in">require</span>(<span class="string">'gulp-util'</span>);
+<span class="keyword">var</span> uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);
+<span class="keyword">var</span> watch = <span class="built_in">require</span>(<span class="string">'gulp-watch'</span>);
+</pre></td></tr></table></figure>
+
+<p>A primeira tarefa que vamos definir, é que vai minificar os arquivos da pasta <code>src/js</code> para pasta <code>build/js</code>. Para isto, utilizaremos o método <code>gulp.task()</code>, que recebe 2 parâmetros. O primeiro é o <strong>nome da nova tarefa</strong> e o segundo uma <strong>função callback</strong> com os steps que devem ser executados a partir desta:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'scripts'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="comment">// corpo da tarefa</span>
+});
+</pre></td></tr></table></figure>
+
+<p>Para configurar a minificação, precisamos definir 3 ações:</p>
+<ol>
+<li><em>recuperar os arquivos fonte na pasta de origem;</em></li>
+<li><em>aplicar a minificação (uglify);</em></li>
+<li><em>colocar o resultado na pasta de destino.</em></li>
+</ol>
+<p>O código ficará assim:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'scripts'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="comment">// corpo da tarefa </span>
+    <span class="keyword">return</span> gulp
+            .src([<span class="string">'src/js/**/*.js'</span>])
+            .pipe(uglify())
+            .pipe(gulp.dest(<span class="string">'build/js'</span>));      
+});
+</pre></td></tr></table></figure>
+
+<p>Pronto! Para rodá-la, podemos ir ao terminal e digitar:</p>
+<figure class="highlight terminal"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>gulp scripts
+</pre></td></tr></table></figure>
+
+<p>E conferir se os arquivos foram minificados em <code>build/js</code>.</p>
+<p>Para deixar a coisa mais legal, vamos configurar a tarefa que vai monitorar alterações na pasta <code>src/js</code> e rodar a tarefa &#39;scripts&#39;, responsável pela minificação. Começamos da mesma forma:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'watch'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+   <span class="comment">// corpo da tarefa </span>
+});
+</pre></td></tr></table></figure>
+
+<p>Dentro da nova task, vamos utilizar o método <code>gulp.watch()</code> que recebe 2 parâmetros. No primeiro, definimos a <strong>pasta onde estão os nossos arquivos fonte</strong> e um <strong>função callback</strong> que será executada toda vez que um desses arquivos for modificado:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'watch'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="comment">// corpo da tarefa </span>
+    gulp.watch(<span class="string">'src/js/**/*.js'</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>});
+});
+</pre></td></tr></table></figure>
+
+<p>Agora no callback, o método <code>gutil.log()</code> exibirá informações do arquivo alterado, e através do método <code>gulp.run()</code> definimos qual tarefa será executada. Isso acontecerá toda vez que um arquivo presente em <code>src/js</code> for alterado:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'watch'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="comment">// corpo da tarefa </span>
+    gulp.watch(<span class="string">'src/js/**/*.js'</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
+        gutil.log(<span class="string">'File '</span>+event.path+<span class="string">' was '</span>+event.type+<span class="string">', running tasks...'</span>);
+        gulp.run(<span class="string">'scripts'</span>);
+    });
+});
+</pre></td></tr></table></figure>
+
+<p>Vamos conferir, no terminal execute:</p>
+<figure class="highlight terminal"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>gulp watch
+</pre></td></tr></table></figure>
+
+<p>Ai basta alterar qualquer arquivo .js da pasta fonte e ver o resultado na pasta <code>build/js</code>.</p>
+<h2 id="indo-al-m">Indo além</h2>
+<p>Agora que temos uma boa noção como tudo funciona, basta repetir o ciclo. Para cada nova tarefa que for automatizar, siga estes passos:</p>
+<ol>
+<li><em>instale o novo módulo usando npm install;</em></li>
+<li><em>instancie o novo módulo no gulpfile.js;</em></li>
+<li><em>defina a nova task e o que a mesma executará;</em></li>
+<li><em>teste e divirta-se!</em></li>
+</ol>
+<p>Conheça mais sobre o projeto, visitando o <a href="http://gulpjs.com/" target="_blank">site oficial</a>. Dê uma olhada no <a href="http://gratimax.github.io/search-gulp-plugins/" target="_blank">link plugins</a>, lá você vai descobrir uma série de módulos para utilizar com o Gulp.js</p>
+<p>Se você quiser saber mais sobre o processo de automatização de tarefas de front-end (utilizando Grunt.js), não deixe deixe de conhecer <a href="http://www.caelum.com.br/curso-javascript-jquery/" target="_blank">o treinamento de Programação JavaScript da Caelum</a> . Te vejo por lá!</p>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'lessismorejs'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2014 Leonardo Souza
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
