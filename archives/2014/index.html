@@ -62,7 +62,7 @@
     
       <li><a href="/archives">Archives</a></li>
     
-      <li><a href="http://about.me/leonardo.souza">About</a></li>
+      <li><a href="/about">About</a></li>
     
       <li><a href="/atom.xml">Rss</a></li>
     
@@ -80,6 +80,398 @@
     <div id="wrapper">
 <h2 class="archive-title">2014</h2>
 
+
+  
+    <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/organize-seu-codigo-javascript-de-maneira-facil/">Organize seu código Javascript de maneira fácil!</a></h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2014-03-10T03:00:00.000Z">Mar 10 2014</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p><img src="http://blog.caelum.com.br/wp-content/uploads/2014/02/js.jpg" alt="" width="552" height="222" style="display:block;margin:auto;" /></p>
+<p>Ao longo desses anos nesta indústria vital já participei de inúmeros projetos... e foram tantos que os dedos das mãos seriam insuficientes para contá-los. Alguns deles me orgulho, outros nem tanto (afinal como você, eu também já produzi muita coisa de qualidade duvidosa). Ainda assim acredito na máxima que as pessoas sempre evoluem, uma vez que estas buscam sempre o melhor dentro da missão de cada uma.</p>
+<p>Organizar código Javascript para quem está iniciando nem sempre é fácil, pois na ótica do programador novato a linguagem é o mesmo que um monte de blocos de código (leia funções) que este foi criando ou até mesmo copiando para resolver os problemas do dia-a-dia. Esse pensamento, somado a inúmeras más práticas vão tornando o código feito com Javascript um tanto que caótico.</p>
+<p>Entre as principais (más práticas), eis algumas que a meu ver atrapalham e irritam grande parte dos membros de um time de desenvolvimento (ah e faz a mãe do programador, ser lembrada):</p>
+<ul>
+    <li>falta de indentação</li>
+    <li>falta de comentários</li>
+    <li>variáveis espalhadas</li>
+    <li>variáveis globais</li>
+    <li>funções e variáveis criadas sem propósito</li>
+</ul>
+
+<p>Mas o objetivo deste artigo não é só citar as partes ruins do desenvolvimento, e sim propor uma forma elegante de resolver isso. Então vamos a uma solução simples para organização dos seus códigos feitos com JavaScript.</p>
+<h2 id="fun-es-nomeadas-x-fun-es-an-nimas">Funções nomeadas x funções anônimas</h2>
+<p>Todo mundo aqui, deve saber o que são funções <strong>nomeadas</strong> e <strong>anônimas</strong> em JavaScript. Se não sabe, eis alguns exemplos:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="comment">// função nomeada</span>
+<span class="function"><span class="keyword">function</span> <span class="title">common</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> <span class="literal">true</span>;
+}
+</pre></td></tr></table></figure>
+
+<p>Acima vemos uma <strong>função nomeada</strong> e, a seguir, uma <strong>função anônima</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="comment">// função anônima</span>
+<span class="keyword">var</span> anonymous = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+ <span class="keyword">return</span> <span class="literal">true</span>;
+}
+</pre></td></tr></table></figure>
+
+<p>Observando os dois códigos, vê-se pouca diferença, não é mesmo? Os dois quando executados retornam a mesma coisa (true), porém são padrões sintáticos bem distintos.</p>
+<p>No primeiro, temos uma função definida com o nome <strong>common</strong>, e é através desse nome que será possível invocar essa função, desse jeito:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>common();
+<span class="comment">// =&gt; true</span>
+</pre></td></tr></table></figure>
+
+<p>No segundo, note que a função não possui um nome, então ela precisou ser atribuída a variável <strong>anonymous</strong> para que pudesse ser invocada. Neste caso a chamada seria idêntica ao exemplo anterior:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>anonymous();
+<span class="comment">// =&gt; true</span>
+</pre></td></tr></table></figure>
+
+<p>Entendeu o conceito? Em linhas gerais, desculpe a ambiguidade, a <strong>função nomeada</strong> chama-se assim porque <strong>tem um nome</strong>. A <strong>função anônima</strong>, por sua vez <strong>não possui um nome</strong>, então a única forma de utilizá-la é atribuindo-a algo (uma variável, uma propriedade em um objeto, etc). Perdi esse tempo, explicando isso, pois acho que vai valer a pena para você entender o que vamos fazer a seguir.</p>
+<h2 id="come-ando-a-organiza-o">Começando a organização</h2>
+<p>Vamos iniciar os trabalhos, <strong>criando uma função anônima</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>}
+</pre></td></tr></table></figure>
+
+<p>Se você salvar esse código e tentar e xecutá-lo em sua página, ou mesmo rodá-lo no console do seu navegador tomará um <strong><em>SyntaxError</em></strong>. E isso tem um motivo óbvio, pois se a função não tem nome como eu vou chamá-la? Então teoricamente eu seria obrigado a atribui-la a uma variável ou algo do tipo. Neste caso, vamos fazer diferente:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>})
+</pre></td></tr></table></figure>
+
+<p>Colocando esse código entre parênteses, o <strong><em>SyntaxError</em></strong> que estava rolando até então sumirá. Mágica? Magia negra? Não! Simplesmente os parênteses agruparam a nossa função, formando uma espécie de expressão. Esse código servirá de embrulho (<strong>wrapper</strong>) para tudo que vamos fazer daqui pra frente. Farei um pequeno teste agora, colocando um simpático <code>console.log</code> dentro da nossa função e, se tudo der certo, o resultado será a exibição do texto <strong>&quot;less is more!&quot;</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+ console.log(<span class="string">"less is more!"</span>);
+})
+</pre></td></tr></table></figure>
+
+<p>Se você executou esse código na sua página, e deu uma olhadinha no console, vai perceber que não houve retorno algum. Ué, o que que houve? Ocorre que apesar de termos uma função que implementa uma única linha de código, ele só está definida, porém não foi executada. Para fazer isso, basta adicionar parênteses no final da expressão, desta forma:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+ console.log(<span class="string">"less is more!"</span>);
+})();
+</pre></td></tr></table></figure>
+
+<p>Bingo! A partir de agora, toda vez que a página for carregada, esse função será executada &quot;automagicamente&quot;! Então temos a base necessária para organização de nossos códigos.</p>
+<h2 id="organizando-seu-c-digo">Organizando seu código</h2>
+<p>Você já deve ter ouvido falar, que toda variável precisa ser declarada usando a palavra chave <strong>var</strong>. Não usar o <strong>var</strong>, custa caro, pois uma variável definida sem ele vai parar no <strong>escopo global</strong>, então para seguir a régua de boas práticas vamos sempre usá-lo.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">"less is more!"</span>);
+
+    <span class="keyword">var</span> box = {};
+
+})();
+</pre></td></tr></table></figure>
+
+<p>No exemplo acima, defini uma variável <strong>box</strong> que armazena um <strong>objeto vazio</strong>. A grande vantagem dessa abordagem é que <strong>box</strong> não está disponível em nenhum outro escopo a não ser o definido pela função <strong>wrapper</strong> que fizemos. Então se algum espertinho tentar ir no console e digitar:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>console.log(box);
+<span class="comment">// =&gt; ReferenceError: box is not defined</span>
+</pre></td></tr></table></figure>
+
+<p>Vai tomar um belo de um <strong><em>ReferenceError</em></strong> no meio da cara! Bom né? Não sujamos o escopo global e ainda ganhamos privacidade! :D</p>
+<p>Uma vez que temos o objeto <strong>box</strong>, podemos adicionar propriedades e métodos a este objeto. Imagine agora que precisamos criar um controle bem simples, para organizar uma fila com nomes de automóveis. A ideia é começar com a fila vazia, ir adicionando os veículos e retornar a lista no final. Para isso, vamos usar uma propriedade chamada <strong>queue</strong> e dois métodos, que vamos chamar de <strong>addItem</strong> e <strong>getQueue</strong>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre>(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">"less is more!"</span>);
+
+    <span class="comment">// criando o objeto (vazio) box</span>
+    <span class="keyword">var</span> box = {};
+
+    <span class="comment">// adicionando a propriedade queue (fila)</span>
+    box.queue = [];
+
+    <span class="comment">// adicionando o métodos addItem (adicionar item)</span>
+    box.addItem = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+
+    };
+
+    <span class="comment">// adicionando o métodos getQueue (recuperar fila)</span>
+    box.getQueue = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+
+    };
+})();
+</pre></td></tr></table></figure>
+
+<p>Como podemos perceber, a propriedade <strong>queue</strong> é um array vazio. Então nosso método <strong>addItem</strong> precisa receber um veículo como parâmetro e adicioná-lo nesta fila. Por sua vez, o método <strong>getQueue</strong> apenas retorna uma string com os veículos que temos na fila, separados por um hífen.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre>(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">"less is more!"</span>);
+
+    <span class="comment">// criando o objeto (vazio) box</span>
+    <span class="keyword">var</span> box = {};
+
+    <span class="comment">// adicionando a propriedade queue (fila)</span>
+    box.queue = [];
+
+    <span class="comment">// adicionando o métodos addItem (adicionar item)</span>
+    box.addItem = <span class="function"><span class="keyword">function</span><span class="params">(car)</span> {</span>
+        <span class="keyword">return</span> box.queue.push(car);
+    };
+
+    <span class="comment">// adicionando o métodos getQueue (recuperar fila)</span>
+    box.getQueue = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">return</span> box.queue.join(<span class="string">" - "</span>);
+    };
+})();
+</pre></td></tr></table></figure>
+
+<p>Feito isso, se você rodar esse código, deve estar se perguntando: como diabos vou invocar os métodos <strong>addItem</strong> e <strong>getQueue</strong> do objeto <strong>box</strong> que acabei de implementar, visto que ele não está acessível no escopo global? A resposta é simples, basta fazer com que nossa função <strong>wrapper</strong> retorne o objeto <strong>box</strong> (forma simples) ou podemos configurar exatamente o que vai ser retornado. Vamos ao primeiro exemplo:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="code"><pre><span class="keyword">var</span> GLOBALCAR = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">"less is more!"</span>);
+
+    <span class="comment">// criando o objeto (vazio) box</span>
+    <span class="keyword">var</span> box = {};
+
+    <span class="comment">// adicionando a propriedade queue (fila)</span>
+    box.queue = [];
+
+    <span class="comment">// adicionando o métodos addItem (adicionar item)</span>
+    box.addItem = <span class="function"><span class="keyword">function</span><span class="params">(car)</span> {</span>
+        <span class="keyword">return</span> box.queue.push(car);
+    };
+
+    <span class="comment">// adicionando o métodos getQueue (recuperar fila)</span>
+    box.getQueue = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">return</span> box.queue.join(<span class="string">" - "</span>);
+    };
+
+    <span class="keyword">return</span> box;
+})();
+</pre></td></tr></table></figure>
+
+<p>Como você deve ter percebido, além de retornar o objeto <strong>box</strong>, eu atribui o nosso <strong>wrapper</strong> a uma variável global chamada <strong>GLOBALCAR</strong> (mesmo com a palavra chave var, como <strong>GLOBALCAR</strong> não está dentro de uma função, ela fica visível no escopo mais amplo do Javascript, podendo ser acessada de qualquer local). Dessa forma, <strong>GLOBALCAR</strong> tornou-se um objeto. Para testar nossa implementação podemos executar (eu incentivo você neste momento a testar via console):</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>GLOBALCAR;
+<span class="comment">// =&gt; Object {queue: Array[0], addItem: function, getQueue: function}</span>
+</pre></td></tr></table></figure>
+
+<p>Viu isso? <strong>GLOBALCAR</strong> é um objeto contendo <strong>queue</strong>, <strong>addItem</strong> e <strong>getQueue</strong>. Então podemos executar o método <strong>addItem</strong> para adicionar os carros a nossa fila:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>GLOBALCAR.addItem(<span class="string">"Gol"</span>);
+<span class="comment">// =&gt; 1</span>
+GLOBALCAR.addItem(<span class="string">"Palio"</span>);
+<span class="comment">// =&gt; 2</span>
+GLOBALCAR.addItem(<span class="string">"Corsa"</span>);
+<span class="comment">// =&gt; 3</span>
+</pre></td></tr></table></figure>
+
+<p>E o método <strong>getQueue</strong> para retornar os itens que estão na fila:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>GLOBALCAR.getQueue();
+<span class="comment">// =&gt; "Gol - Palio - Corsa"</span>
+</pre></td></tr></table></figure>
+
+<p>Legal né? Mas ai se você souber um pouquinho mais de JavaScript vai se perguntar porque é possível acessar a propriedade <strong>queue</strong> diretamente!? Isso tem tudo a ver com a forma que retornamos o objeto <strong>box</strong>. Se você quiser esconder essa propriedade, deixando disponível apenas os métodos você pode fazer isso:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre><span class="keyword">var</span> GLOBALCAR = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">"less is more!"</span>);
+
+    <span class="comment">// criando o objeto (vazio) box</span>
+    <span class="keyword">var</span> box = {};
+
+    <span class="comment">// adicionando a propriedade queue (fila)</span>
+    box.queue = [];
+
+    <span class="comment">// adicionando o métodos addItem (adicionar item)</span>
+    box.addItem = <span class="function"><span class="keyword">function</span><span class="params">(car)</span> {</span>
+        <span class="keyword">return</span> box.queue.push(car);
+    };
+
+    <span class="comment">// adicionando o métodos getQueue (recuperar fila)</span>
+    box.getQueue = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">return</span> box.queue.join(<span class="string">" - "</span>);
+    };
+
+    <span class="comment">// retornando um objeto personalizado (só com o necessário)</span>
+    <span class="keyword">return</span> {
+        add: box.addItem,
+        get: box.getQueue
+    };
+})();
+</pre></td></tr></table></figure>
+
+<p>Agora um novo teste no console revelará:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>GLOBALCAR;
+<span class="comment">// =&gt; Object {add: function, get: function}</span>
+</pre></td></tr></table></figure>
+
+<p>Note que ninguém, a não ser você saberá da existência da propriedade <strong>queue</strong>. O mesmo vale para outros métodos que você queira implementar, mais que não fazem sentido serem expostos.</p>
+<p>Com base na nova implementação, o método <strong>addItem</strong> virou apenas <strong>add</strong>, e o <strong>getQueue</strong> virou um simples <strong>get</strong>. Para adicionar itens a nossa fila, usaremos então:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>GLOBALCAR.add(<span class="string">"Gol"</span>);
+<span class="comment">// =&gt; 1</span>
+GLOBALCAR.add(<span class="string">"Palio"</span>);
+<span class="comment">// =&gt; 2</span>
+GLOBALCAR.add(<span class="string">"Corsa"</span>);
+<span class="comment">// =&gt; 3</span>
+</pre></td></tr></table></figure>
+
+<p>E para retornar a fila:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>GLOBALCAR.get();
+<span class="comment">// =&gt; "Gol - Palio - Corsa"</span>
+</pre></td></tr></table></figure>
+
+<p>Elegante não? Agora você já tem uma base sólida para começar a organizar os seus projetos em JavaScript. O mais bacana, é que você pode entender a timeline do processo para chegarmos nesse objetivo. Aproveite o momento de satisfação, e divulge para a galera que agora você aprendeu a usar um <strong>pattern</strong> para organização do seu código, conhecido por aí como &quot;<strong>Module Pattern</strong>&quot;. Chique não?</p>
+<p><em>Este artigo foi originalmente publicado no site <a href="http://blog.caelum.com.br/organize-seu-codigo-javascript-de-maneira-facil/" target="_blank"><a href="http://blog.caelum.com.br/organize-seu-codigo-javascript-de-maneira-facil/">http://blog.caelum.com.br/organize-seu-codigo-javascript-de-maneira-facil/</a></a></em>
+<br><br><br><br></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
 
   
     <article class="post">
